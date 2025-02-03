@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="868b2231-d375-4298-8f64-985e8cf6a47f" >
+		<http:listener-connection host="0.0.0.0" port="6009" />
+	</http:listener-config>
+	<flow name="test1-s-apiFlow" doc:id="a65eaa1c-8956-45e3-8b5b-dc6b24d55b35" >
+		<http:listener doc:name="Listener" doc:id="d4b67106-6ec7-4a94-a277-96d26e0ea457" config-ref="HTTP_Listener_config" path="/test1-s-api"/>
+		<logger level="INFO" doc:name="test1-s-api" doc:id="fcc83404-b2f2-4954-a479-03e32a7a6e11" message='#["test1-s-api log"]'/>
+		<ee:transform doc:name="test1-s-api-payload" doc:id="3debb4ed-5fbc-4016-a08a-d47e347d2809" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Message":"Welcome to test-s-api"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
